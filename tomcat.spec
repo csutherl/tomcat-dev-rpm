@@ -106,6 +106,11 @@ BuildRequires: apache-commons-pool
 BuildRequires: tomcat-taglibs-standard
 BuildRequires: java-devel >= 1:1.6.0
 BuildRequires: jpackage-utils >= 0:1.7.0
+%if 0%{?fedora} >= 27
+# add_maven_depmap is deprecated, using javapackages-local for now
+# See https://fedora-java.github.io/howto/latest/#_add_maven_depmap_macro
+BuildRequires: javapackages-local
+%endif
 BuildRequires: junit
 BuildRequires: geronimo-jaxrpc
 BuildRequires: wsdl4j

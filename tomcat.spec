@@ -698,6 +698,7 @@ fi
 %changelog
 * Thu Nov 30 2017 Coty Sutherland <csutherl@redhat.com> - 1:8.5.23-1
 - Update to 8.5.23
+- Remove EPEL 7 support since it was broken anyway. There's no way to make it work because dependency that require specific tomcat package versions
 
 * Thu Jun 15 2017 Coty Sutherland <csutherl@redhat.com> - 1:8.5.15-1
 - Update to 8.5.15

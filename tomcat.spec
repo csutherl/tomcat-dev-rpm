@@ -257,11 +257,10 @@ find . -type f \( -name "*.bat" -o -name "*.class" -o -name Thumbs.db -o -name "
 
 %patch0 -p0
 %patch1 -p0
+%patch2 -p0
 %if 0%{?rhel}
 %patch3 -p0
 %patch4 -p0
-%else
-%patch2 -p0
 %endif
 
 %if 0%{?fedora}

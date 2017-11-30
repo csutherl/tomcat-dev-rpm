@@ -28,22 +28,12 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-# TODO: Address this.
-#
-# Sweet lord this is nasty, but no way around it on RHEL...
-# FTR, I don't want to do this, but I also don't want to rebuild packages to work
-# with it. This is a hack to allow installing the 8.5 package on RHEL.
-%if 0%{?rhel}
-%global jspspec 2.2
-%global servletspec 3.0
-%else
 %global jspspec 2.3
-%global servletspec 3.1
-%endif
 %global major_version 8
 %global minor_version 5
 %global micro_version 23
 %global packdname apache-tomcat-%{version}-src
+%global servletspec 3.1
 %global elspec 3.0
 %global tcuid 91
 # Recommended version is specified in java/org/apache/catalina/core/AprLifecycleListener.java

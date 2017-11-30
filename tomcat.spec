@@ -92,33 +92,23 @@ Source32:      tomcat-named.service
 
 Patch0:        %{name}-%{major_version}.%{minor_version}-bootstrap-MANIFEST.MF.patch
 Patch1:        %{name}-%{major_version}.%{minor_version}-tomcat-users-webapp.patch
-%if 0%{?rhel}
-Patch2:        %{name}-8.5.15-CompilerOptionsV8-9.patch
-Patch3:        %{name}-8.5.15-remove-failonwarnings.patch
-%else
 Patch2:        %{name}-8.0.36-CompilerOptionsV9.patch
-%endif
 
 BuildArch:     noarch
 
 BuildRequires: ant
+BuildRequires: ecj >= 1:4.4.0
 BuildRequires: findutils
 BuildRequires: apache-commons-collections
 BuildRequires: apache-commons-daemon
 BuildRequires: apache-commons-dbcp
 BuildRequires: apache-commons-pool
-%if 0%{?fedora}
 BuildRequires: tomcat-taglibs-standard
-BuildRequires: ecj >= 1:4.4.0
-%else
-BuildRequires: jakarta-taglibs-standard
-BuildRequires: ecj >= 1:4.2.0
-%endif
-BuildRequires: geronimo-jaxrpc
-BuildRequires: wsdl4j
 BuildRequires: java-devel >= 1:1.6.0
 BuildRequires: jpackage-utils >= 0:1.7.0
 BuildRequires: junit
+BuildRequires: geronimo-jaxrpc
+BuildRequires: wsdl4j
 BuildRequires: systemd-units
 
 Requires:      apache-commons-daemon
@@ -129,9 +119,7 @@ Requires:      java-headless >= 1:1.6.0
 Requires:      jpackage-utils
 Requires:      procps
 Requires:      %{name}-lib = %{epoch}:%{version}-%{release}
-%if 0%{?fedora}
 Recommends:    tomcat-native >= %{native_version}
-%endif
 Requires(pre):    shadow-utils
 Requires(post):   chkconfig
 Requires(preun):  chkconfig
@@ -243,11 +231,7 @@ Apache Tomcat EL API implementation classes.
 Group: Applications/Internet
 Summary: The ROOT and examples web applications for Apache Tomcat
 Requires: %{name} = %{epoch}:%{version}-%{release}
-%if 0%{?fedora}
 Requires: tomcat-taglibs-standard >= 0:1.1
-%else
-Requires: jakarta-taglibs-standard >= 0:1.1
-%endif
 
 %description webapps
 The ROOT and examples web applications for Apache Tomcat.
@@ -261,17 +245,9 @@ find . -type f \( -name "*.bat" -o -name "*.class" -o -name Thumbs.db -o -name "
 %patch0 -p0
 %patch1 -p0
 %patch2 -p0
-%if 0%{?rhel}
-%patch3 -p0
-%endif
 
-%if 0%{?fedora}
 %{__ln_s} $(build-classpath tomcat-taglibs-standard/taglibs-standard-impl) webapps/examples/WEB-INF/lib/jstl.jar
 %{__ln_s} $(build-classpath tomcat-taglibs-standard/taglibs-standard-compat) webapps/examples/WEB-INF/lib/standard.jar
-%else
-%{__ln_s} $(build-classpath jakarta-taglibs-core) webapps/examples/WEB-INF/lib/jstl.jar
-%{__ln_s} $(build-classpath jakarta-taglibs-standard) webapps/examples/WEB-INF/lib/standard.jar
-%endif
 
 %build
 export OPT_JAR_LIST="xalan-j2-serializer"
@@ -428,13 +404,8 @@ pushd output/build
                                         apache-commons-dbcp apache-commons-pool ecj 2>&1
     # need to use -p here with b-j-r otherwise the examples webapp fails to
     # load with a java.io.IOException
-%if 0%{?fedora}
     %{_bindir}/build-jar-repository -p webapps/examples/WEB-INF/lib \
     tomcat-taglibs-standard/taglibs-standard-impl.jar tomcat-taglibs-standard/taglibs-standard-compat.jar 2>&1
-%else
-    %{_bindir}/build-jar-repository -p webapps/examples/WEB-INF/lib \
-    jakarta-taglibs-standard/taglibs-standard-impl.jar jakarta-taglibs-standard/taglibs-standard-compat.jar 2>&1
-%endif
 popd
 
 pushd ${RPM_BUILD_ROOT}%{libdir}
@@ -478,13 +449,8 @@ echo '</Context>' >> context.xml
 popd
 
 pushd ${RPM_BUILD_ROOT}%{appdir}/examples/WEB-INF/lib
-%if 0%{?fedora}
 %{__ln_s} -f $(build-classpath tomcat-taglibs-standard/taglibs-standard-impl) jstl.jar
 %{__ln_s} -f $(build-classpath tomcat-taglibs-standard/taglibs-standard-compat) standard.jar
-%else
-%{__ln_s} -f $(build-classpath jakarta-taglibs-core) jstl.jar
-%{__ln_s} -f $(build-classpath jakarta-taglibs-standard) standard.jar
-%endif
 popd
 
 
@@ -503,12 +469,12 @@ for libname in annotations-api catalina jasper-el jasper catalina-ha; do
 done
 
 # tomcat-util-scan
-%{__cp} -a %{name}-util-scan.pom ${RPM_BUILD_ROOT}%{_mavenpomdir}/JPP.%{name}-tomcat-util-scan.pom
-%add_maven_depmap JPP.%{name}-tomcat-util-scan.pom %{name}/%{name}-util-scan.jar -f "tomcat-lib"
+%{__cp} -a %{name}-util-scan.pom ${RPM_BUILD_ROOT}%{_mavenpomdir}/JPP.%{name}-util-scan.pom
+%add_maven_depmap JPP.%{name}-util-scan.pom %{name}/%{name}-util-scan.jar -f "tomcat-lib"
 
 # tomcat-jni
-%{__cp} -a %{name}-jni.pom ${RPM_BUILD_ROOT}%{_mavenpomdir}/JPP.%{name}-tomcat-jni.pom
-%add_maven_depmap JPP.%{name}-tomcat-jni.pom %{name}/%{name}-jni.jar -f "tomcat-lib"
+%{__cp} -a %{name}-jni.pom ${RPM_BUILD_ROOT}%{_mavenpomdir}/JPP.%{name}-jni.pom
+%add_maven_depmap JPP.%{name}-jni.pom %{name}/%{name}-jni.jar -f "tomcat-lib"
 
 # servlet-api jsp-api and el-api are not in tomcat subdir, since they are widely re-used elsewhere
 %{__cp} -a tomcat-jsp-api.pom ${RPM_BUILD_ROOT}%{_mavenpomdir}/JPP-tomcat-jsp-api.pom
@@ -685,7 +651,6 @@ fi
 %dir %{libdir}
 %{libdir}/*.jar
 %{_javadir}/*.jar
-%{_mavendepmapfragdir}
 %{bindir}/tomcat-juli.jar
 %{_mavenpomdir}/JPP.%{name}-annotations-api.pom
 %{_mavenpomdir}/JPP.%{name}-catalina-ha.pom
@@ -701,6 +666,7 @@ fi
 %{_mavenpomdir}/JPP.%{name}-websocket-api.pom
 %{_mavenpomdir}/JPP.%{name}-tomcat-websocket.pom
 %{_mavenpomdir}/JPP.%{name}-jaspic-api.pom
+%{_datadir}/maven-metadata/tomcat.xml
 %exclude %{libdir}/%{name}-el-%{elspec}-api.jar
 %exclude %{_javadir}/%{name}-servlet-%{servletspec}*.jar
 %exclude %{_javadir}/%{name}-el-%{elspec}-api.jar

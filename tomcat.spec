@@ -92,9 +92,12 @@ Source32:      tomcat-named.service
 
 Patch0:        %{name}-%{major_version}.%{minor_version}-bootstrap-MANIFEST.MF.patch
 Patch1:        %{name}-%{major_version}.%{minor_version}-tomcat-users-webapp.patch
+%if 0%{?rhel}
+Patch2:        %{name}-8.5.15-CompilerOptionsV8-9.patch
+Patch3:        %{name}-8.5.15-remove-failonwarnings.patch
+%else
 Patch2:        %{name}-8.0.36-CompilerOptionsV9.patch
-Patch3:        %{name}-8.5.15-CompilerOptionsV8-9.patch
-Patch4:        %{name}-8.5.15-remove-failonwarnings.patch
+%endif
 
 BuildArch:     noarch
 
@@ -260,7 +263,6 @@ find . -type f \( -name "*.bat" -o -name "*.class" -o -name Thumbs.db -o -name "
 %patch2 -p0
 %if 0%{?rhel}
 %patch3 -p0
-%patch4 -p0
 %endif
 
 %if 0%{?fedora}

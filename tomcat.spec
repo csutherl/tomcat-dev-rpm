@@ -42,7 +42,7 @@
 %endif
 %global major_version 8
 %global minor_version 5
-%global micro_version 15
+%global micro_version 23
 %global packdname apache-tomcat-%{version}-src
 %global elspec 3.0
 %global tcuid 91
@@ -739,6 +739,9 @@ fi
 %attr(0660,tomcat,tomcat) %verify(not size md5 mtime) %{logdir}/catalina.out
 
 %changelog
+* Thu Nov 30 2017 Coty Sutherland <csutherl@redhat.com> - 1:8.5.23-1
+- Update to 8.5.23
+
 * Thu Jun 15 2017 Coty Sutherland <csutherl@redhat.com> - 1:8.5.15-1
 - Update to 8.5.15
 

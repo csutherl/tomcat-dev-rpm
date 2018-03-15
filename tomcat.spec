@@ -93,7 +93,6 @@ Source32:      tomcat-named.service
 Patch0:        %{name}-%{major_version}.%{minor_version}-bootstrap-MANIFEST.MF.patch
 Patch1:        %{name}-%{major_version}.%{minor_version}-tomcat-users-webapp.patch
 Patch2:        %{name}-8.0.36-CompilerOptionsV9.patch
-Patch3:        r1826376.patch
 
 BuildArch:     noarch
 
@@ -251,7 +250,6 @@ find . -type f \( -name "*.bat" -o -name "*.class" -o -name Thumbs.db -o -name "
 %patch0 -p0
 %patch1 -p0
 %patch2 -p0
-%patch3 -p0
 
 %{__ln_s} $(build-classpath tomcat-taglibs-standard/taglibs-standard-impl) webapps/examples/WEB-INF/lib/jstl.jar
 %{__ln_s} $(build-classpath tomcat-taglibs-standard/taglibs-standard-compat) webapps/examples/WEB-INF/lib/standard.jar
@@ -280,6 +278,7 @@ export OPT_JAR_LIST="xalan-j2-serializer"
       -Dversion="%{version}" \
       -Dversion.build="%{micro_version}" \
       -Djava.7.home=%{java_home} \
+      -Dexecute.validate=false \
       deploy dist-prepare dist-source javadoc
 
     # remove some jars that we'll replace with symlinks later
@@ -705,7 +704,6 @@ fi
 %changelog
 * Thu Mar 15 2018 Coty Sutherland <csutherl@redhat.com> - 1:8.5.29-1
 - Update to 8.5.29
-- Resolves: asfbz#62164
 
 * Thu Nov 30 2017 Coty Sutherland <csutherl@redhat.com> - 1:8.5.23-1
 - Update to 8.5.23

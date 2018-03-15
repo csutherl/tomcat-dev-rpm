@@ -31,7 +31,7 @@
 %global jspspec 2.3
 %global major_version 8
 %global minor_version 5
-%global micro_version 23
+%global micro_version 29
 %global packdname apache-tomcat-%{version}-src
 %global servletspec 3.1
 %global elspec 3.0
@@ -93,6 +93,7 @@ Source32:      tomcat-named.service
 Patch0:        %{name}-%{major_version}.%{minor_version}-bootstrap-MANIFEST.MF.patch
 Patch1:        %{name}-%{major_version}.%{minor_version}-tomcat-users-webapp.patch
 Patch2:        %{name}-8.0.36-CompilerOptionsV9.patch
+Patch3:        r1826376.patch
 
 BuildArch:     noarch
 
@@ -250,6 +251,7 @@ find . -type f \( -name "*.bat" -o -name "*.class" -o -name Thumbs.db -o -name "
 %patch0 -p0
 %patch1 -p0
 %patch2 -p0
+%patch3 -p0
 
 %{__ln_s} $(build-classpath tomcat-taglibs-standard/taglibs-standard-impl) webapps/examples/WEB-INF/lib/jstl.jar
 %{__ln_s} $(build-classpath tomcat-taglibs-standard/taglibs-standard-compat) webapps/examples/WEB-INF/lib/standard.jar
@@ -701,6 +703,10 @@ fi
 %attr(0660,tomcat,tomcat) %verify(not size md5 mtime) %{logdir}/catalina.out
 
 %changelog
+* Thu Mar 15 2018 Coty Sutherland <csutherl@redhat.com> - 1:8.5.29-1
+- Update to 8.5.29
+- Resolves: asfbz#62164
+
 * Thu Nov 30 2017 Coty Sutherland <csutherl@redhat.com> - 1:8.5.23-1
 - Update to 8.5.23
 - Remove EPEL 7 support since it was broken anyway. There's no way to make it work because dependency that require specific tomcat package versions

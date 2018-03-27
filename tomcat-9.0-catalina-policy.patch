@@ -1,0 +1,39 @@
+--- conf/catalina.policy~	2016-06-17 10:20:17.649171968 -0400
++++ conf/catalina.policy	2016-06-17 10:23:35.358309244 -0400
+@@ -50,6 +50,36 @@ grant codeBase "file:${java.home}/lib/ex
+         permission java.security.AllPermission;
+ };
+ 
++// ========== RHEL SPECIFIC CODE PERMISSIONS =======================================
++
++// Allowing everything in /usr/share/java allows too many unknowns to be permitted
++// Specifying the individual jars that tomcat needs to function with the security manager
++// is the safest way forward.
++grant codeBase "file:/usr/share/java/tomcat-servlet-3.0-api.jar" {
++        permission java.security.AllPermission;
++};
++grant codeBase "file:/usr/share/java/tomcat-jsp-2.2-api.jar" {
++        permission java.security.AllPermission;
++};
++grant codeBase "file:/usr/share/java/tomcat-el-2.2-api.jar" {
++        permission java.security.AllPermission;
++};
++grant codeBase "file:/usr/share/java/log4j.jar" {
++        permission java.security.AllPermission;
++};
++grant codeBase "file:/usr/share/java/ecj.jar" {
++        permission java.security.AllPermission;
++};
++grant codeBase "file:/usr/share/java/apache-commons-pool.jar" {
++        permission java.security.AllPermission;
++};
++grant codeBase "file:/usr/share/java/apache-commons-dbcp.jar" {
++        permission java.security.AllPermission;
++};
++grant codeBase "file:/usr/share/java/apache-commons-collections.jar" {
++        permission java.security.AllPermission;
++};
++
+ 
+ // ========== CATALINA CODE PERMISSIONS =======================================
+ 

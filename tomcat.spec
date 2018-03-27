@@ -29,15 +29,15 @@
 #
 
 %global jspspec 2.3
-%global major_version 8
-%global minor_version 5
-%global micro_version 29
+%global major_version 9
+%global minor_version 0
+%global micro_version 6
 %global packdname apache-tomcat-%{version}-src
-%global servletspec 3.1
+%global servletspec 4.0
 %global elspec 3.0
 %global tcuid 91
 # Recommended version is specified in java/org/apache/catalina/core/AprLifecycleListener.java
-%global native_version 1.2.8
+%global native_version 1.2.14
 
 
 # FHS 2.3 compliant tree structure - http://www.pathname.com/fhs/2.3/
@@ -97,14 +97,14 @@ Patch2:        %{name}-8.0.36-CompilerOptionsV9.patch
 BuildArch:     noarch
 
 BuildRequires: ant
-BuildRequires: ecj >= 1:4.4.0
+BuildRequires: ecj >= 1:4.6.1
 BuildRequires: findutils
 BuildRequires: apache-commons-collections
 BuildRequires: apache-commons-daemon
 BuildRequires: apache-commons-dbcp
 BuildRequires: apache-commons-pool
 BuildRequires: tomcat-taglibs-standard
-BuildRequires: java-devel >= 1:1.6.0
+BuildRequires: java-devel >= 1:1.8.0
 BuildRequires: jpackage-utils >= 0:1.7.0
 %if 0%{?fedora} >= 27
 # add_maven_depmap is deprecated, using javapackages-local for now
@@ -120,7 +120,7 @@ Requires:      apache-commons-daemon
 Requires:      apache-commons-collections
 Requires:      apache-commons-dbcp
 Requires:      apache-commons-pool
-Requires:      java-headless >= 1:1.6.0
+Requires:      java-headless >= 1:1.8.0
 Requires:      jpackage-utils
 Requires:      procps
 Requires:      %{name}-lib = %{epoch}:%{version}-%{release}
@@ -199,7 +199,7 @@ Summary: Libraries needed to run the Tomcat Web container
 Requires: %{name}-jsp-%{jspspec}-api = %{epoch}:%{version}-%{release}
 Requires: %{name}-servlet-%{servletspec}-api = %{epoch}:%{version}-%{release}
 Requires: %{name}-el-%{elspec}-api = %{epoch}:%{version}-%{release}
-Requires: ecj >= 1:4.2.1
+Requires: ecj >= 1:4.6.1
 Requires: apache-commons-collections
 Requires: apache-commons-dbcp
 Requires: apache-commons-pool
@@ -214,7 +214,7 @@ Summary: Java Servlet v%{servletspec} API
 Provides: servlet = %{servletspec}
 Provides: servlet6
 Provides: servlet3
-Obsoletes: %{name}-servlet-3.0-api
+Obsoletes: %{name}-servlet-3.1-api
 Requires(post): chkconfig
 Requires(postun): chkconfig
 
@@ -699,8 +699,8 @@ fi
 %attr(0660,tomcat,tomcat) %verify(not size md5 mtime) %{logdir}/catalina.out
 
 %changelog
-* Thu Mar 15 2018 Coty Sutherland <csutherl@redhat.com> - 1:8.5.29-1
-- Update to 8.5.29
+* Tue Mar 27 2018 Coty Sutherland <csutherl@redhat.com> - 1:9.0.6-1
+- Update to 9.0.6
 
 * Thu Nov 30 2017 Coty Sutherland <csutherl@redhat.com> - 1:8.5.23-1
 - Update to 8.5.23
